@@ -1,37 +1,29 @@
-import express from 'express';  
-import userRoutes from './routes/userRoutes.js'; // Importing user routes
-import { configDotenv } from 'dotenv';
-import connectDb from './config/db.js';
+import express from "express";
+import userRoutes from "./routes/userRoutes.js"; 
+import { configDotenv } from "dotenv";
+import connectDb from "./config/db.js";
+import productRoutes from "./routes/productRoutes.js"; 
 
-const app = express ();
+const app = express();
 
 configDotenv();
 
 connectDb();
 
-app.use (express.json ()); // Middleware to parse JSON bodies
-app.use (express.urlencoded ({ extended: true })); // Middleware to parse URL-encoded bodies
+app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
 
-app.get ('/', (req, res) => {
-  res.status (200).json({
-    message: 'Welcome to the E-commerce API',
-    
-  }
-
-  )
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the E-commerce API",
+  });
 });
 
-app.use('/api', userRoutes)
-app.use('/api/product', ()=> {})
+app.use("/api/user", userRoutes);
+app.use("/api/product",productRoutes );
 
 
-
-
-
-
-
-const PORT = process.env.PORT
-app.listen (PORT,() => {
-  console.log('Server is running on port 4000')
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log("Server is running on port 4000");
 });
-

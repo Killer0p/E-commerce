@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema(
-  {
-    productName: {
+const productSchema = new mongoose.Schema({
+ productName: {
       type: String,
       required: true,
     },
@@ -12,7 +11,7 @@ const productSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: true,
+      default: 0,
     },
     stock: {
       type: Number,
@@ -20,7 +19,6 @@ const productSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
-      // required: true,
     },
     featured: {
       type: Boolean,
@@ -28,18 +26,18 @@ const productSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      default: True,
+      default: true,
     },
     rating: {
       type: Number,
       default: 0,
     },
   },
-
   {
     timestamps: true,
   }
 );
+
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;
