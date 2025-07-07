@@ -1,49 +1,61 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
- productName: {
-      type: String,
-      required: true,
+ productName:{
+        type: String,
+        required : true
     },
-    productDescription: {
-      type: String,
-      required: true,
+    description: {
+        type: String
     },
-    price: {
-      type: Number,
-      default: 0,
+    display: {
+        type: String
     },
-    stock: {
-      type: Number,
-      default: 0,
+    ram: {
+        type: Number
     },
-    imageUrl: {
-      type: String,
+    gen:{
+        type: Number
     },
-    featured: {
-      type: Boolean,
-      default: false,
+    rom: {
+        type: Number
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-    rating: {
-      type: Number,
-      default: 0,
-    },
-    gen :{
-      type: Number,
-    },
-    brand :{
-      type: String,
+    brand:{
+        type:String
     },
     use : {
-      type: String,
-      enum: ['GAMING', 'PROFESSIONAL', 'STUDENT', 'PERFORMANCE', 'BUDGET',]
+        type :String,
+        enum : ['GAMING','PROFESSIONAL','STUDENT','BUDGET']
     },
-  },
-  {
+    price: {
+        type : Number,
+        required : true
+    },
+    stock : {
+        type: Number,
+        default: 0
+    },
+    imageUrl:{
+        type : String
+    },
+    featured:{
+        type: Boolean,
+        default: false
+    },
+    isActive:{
+        type: Boolean,
+        default : true
+    },
+    rating:{
+        type: Number,
+        default: 0
+    },
+    processor:{
+        type: String,
+        enum : ['INTEL','Ryzen']
+    },
+
+}, {
     timestamps: true,
   }
 );
