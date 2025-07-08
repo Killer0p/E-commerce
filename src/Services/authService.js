@@ -24,5 +24,35 @@ const register = async (data)=> {
 
 
 
+
 }
-export default {register}
+
+const login = async (data) => {
+  
+ const doEmailExist = await User.find({email: data.email}) 
+
+ if (!doEmailExist.length > 0){
+  throw new Error('User do1es not exist')
+ }
+
+  const dbPassword = doEmailExist[0].password
+  const isPasswordMatched = bcrypt.compareSync(data.password, dbPassword)
+
+  if (isPasswordMatched) {
+    return doEmailExist[0]
+  }else {
+    throw new Error ('Password does not match')
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+export default {register, login}

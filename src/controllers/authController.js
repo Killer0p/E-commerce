@@ -1,8 +1,6 @@
 
-
-
 import authService from "../Services/authService.js"
-
+import jwt from "jsonwebtoken"
 
 const register = async(req, res)=>{
     
@@ -27,4 +25,39 @@ const register = async(req, res)=>{
     
 }
 
-export{register}
+const login = async(req, res)=>{
+try {
+      const {email, password} = req.body
+
+  if(!email || !password){
+    // return res.status(400).json({message:"user credentials missing"})
+    throw new Error ('user credentials missing');
+  }
+  const data = await authService.login({email, password})
+  const payload = {
+    id: data._id,
+    role: data.role,
+    phone: data.phone,
+    email: data.email
+  }
+  const token = jwt.sign(payload,"secretkey")
+  res.cookie('authToken',token)
+  res.status(200).json({
+    message : "login successful",
+    data,
+    token
+  })
+
+  
+  res.status(200).json({
+      message: "user logged in successful",
+      data
+  })
+
+} catch (error) {
+  console.log(error.message)
+  res.status(400).json({message:"error occurred during login", error: error.message})
+}
+}
+
+export{register, login}
