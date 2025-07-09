@@ -1,11 +1,14 @@
 import express from 'express'
 import { createUser } from '../controllers/usercontroller.js';
+import { isLoggedIn } from '../middleware/isLoggedIn.js';
 
 
 
 const router = express.Router();
 
-router.get('/user', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
+  const user = req.user
+  // console.log("I am decoded from route",user)
   res.send('route page');
 })
 

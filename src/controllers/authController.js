@@ -1,4 +1,5 @@
 
+import { createToken } from "../helpers/token.js"
 import authService from "../Services/authService.js"
 import jwt from "jsonwebtoken"
 
@@ -40,7 +41,7 @@ try {
     phone: data.phone,
     email: data.email
   }
-  const token = jwt.sign(payload,"secretkey")
+  const token = createToken(payload)
   res.cookie('authToken',token)
   res.status(200).json({
     message : "login successful",
@@ -48,11 +49,6 @@ try {
     token
   })
 
-  
-  res.status(200).json({
-      message: "user logged in successful",
-      data
-  })
 
 } catch (error) {
   console.log(error.message)

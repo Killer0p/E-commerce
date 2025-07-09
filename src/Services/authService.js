@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import User from '../models/User.js';
+import {hashPassword} from '../utils/utility.js'
 
 
 const register = async (data)=> {
-  const hashedPassword = bcrypt.hashSync(data.password, 10)
+  const hashedPassword = hashPassword(data.password)
   // console.log(hashedPassword)
 
   const email = data.email

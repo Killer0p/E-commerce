@@ -4,6 +4,7 @@ import { configDotenv } from "dotenv";
 import connectDb from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js"; 
 import authRoutes from "./routes/authRoute.js";
+import cookieParser from "cookie-parser"
 
 const app = express();
 
@@ -13,7 +14,7 @@ connectDb();
 
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
-
+app.use(cookieParser())
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "Welcome to the E-commerce API",
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/product",productRoutes );
 app.use('/api/auth',authRoutes);
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
