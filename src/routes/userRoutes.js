@@ -1,17 +1,20 @@
-import express from 'express'
-import { createUser } from '../controllers/usercontroller.js';
-import { isLoggedIn } from '../middleware/isLoggedIn.js';
-
-
+import express from "express";
+import { createUser } from "../controllers/usercontroller.js";
+import { isLoggedIn } from "../middleware/isLoggedIn.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 const router = express.Router();
 
-router.get('/', isLoggedIn, (req, res) => {
-  const user = req.user
-  // console.log("I am decoded from route",user)
-  res.send('route page');
-})
+router.get("/", isLoggedIn, isAdmin, (req, res) => {
+  const user = req.user;
+  console.log("I am decoded from route", user);
+  res.send("route page");
+});
 
-router.post('/user', createUser);
+router.get("/test", (req, res) => {
+  res.send("test route running");
+});
+
+router.post("/user", createUser);
 
 export default router;
