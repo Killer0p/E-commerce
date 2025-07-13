@@ -32,7 +32,7 @@ const sendMail = async (email, otp) => {
             <p style="font-size: 14px; color: #666;">Best regards,<br>The Support Team</p>
           </div>
         </div>
-      </div>
+      </div>  
     `
   });
 
