@@ -1,6 +1,6 @@
 import { createToken } from "../helpers/token.js";
+import Otp from "../models/Otp.js";
 import authService from "../Services/authService.js";
-
 
 const register = async (req, res) => {
   try {
@@ -63,19 +63,49 @@ const login = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log("email", email);
 
-try {
-  const { email } = req.body;
-  if (!email) {
-    throw new Error("Email is required");
+    if (!email) {
+      throw new Error("Email is required");
+    }
+    const data = await authService.forgotPassword({email});
+
+    res.send(data);
+  } catch (error) {
+    console.log(error.message);
+    res.send(error.message);
   }
+};
 
-  const data = await authService.forgotPassword({ email });
+const verifyOtp = async(req, res)=>{
+    try {
+        const{email, otp}=req.body
 
-  res.status(200).json({ message: "otp send successfully" });
-} catch (error) {
-  console.log(error.message);
-  res.status(400).send(error.message);
-}};
+        
+        
+          if (!email || !otp)
+            throw new Error("Email and otp required")
 
-export { register, login, forgotPassword };
+        const doEmailExist = await Otp.findOne({email})
+
+        if(!doEmailExist){
+            throw new Error("Email doesn't exist!")
+
+        }
+
+           await Otp.deleteOne({email})
+           
+        if(doEmailExist==otp){throw new Error("Invallid Otp")}
+        res.status(200).json({
+            message:"Otp validated",
+          
+        })
+
+    } catch (error) {
+        console.log(error.message)
+        res.send(error.message)
+    }
+}
+export { register, login, forgotPassword, verifyOtp };
