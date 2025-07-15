@@ -1,5 +1,6 @@
 import { createToken } from "../helpers/token.js";
 import Otp from "../models/Otp.js";
+import User from "../models/User.js";
 import authService from "../Services/authService.js";
 
 const register = async (req, res) => {
@@ -65,12 +66,14 @@ const login = async (req, res) => {
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+    res.cookie("userEmail", email);
+
     console.log("email", email);
 
     if (!email) {
       throw new Error("Email is required");
     }
-    const data = await authService.forgotPassword({email});
+    const data = await authService.forgotPassword({ email });
 
     res.send(data);
   } catch (error) {
@@ -79,33 +82,36 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-const verifyOtp = async(req, res)=>{
-    try {
-        const{email, otp}=req.body
+const verifyOtp = async (req, res) => {
+  try {
+    const { otp } = req.body;
+    const email = req.cookies.userEmail;
 
-        
-        
-          if (!email || !otp)
-            throw new Error("Email and otp required")
+    if (!email || !otp) throw new Error("Email and otp required");
 
-        const doEmailExist = await Otp.findOne({email})
+    const doEmailExist = await Otp.findOne({ email });
 
-        if(!doEmailExist){
-            throw new Error("Email doesn't exist!")
-
-        }
-
-           await Otp.deleteOne({email})
-           
-        if(doEmailExist==otp){throw new Error("Invallid Otp")}
-        res.status(200).json({
-            message:"Otp validated",
-          
-        })
-
-    } catch (error) {
-        console.log(error.message)
-        res.send(error.message)
+    if (!doEmailExist) {
+      throw new Error("Email doesn't exist!");
     }
-}
+
+    await User.findOneAndUpdate(
+      { email },
+      { otpExpiresAt: new Date(Date.now() + 30 * 1000) },
+      { new: true }
+    );
+
+    await Otp.deleteOne({ email });
+
+    if (doEmailExist == otp) {
+      throw new Error("Invallid Otp");
+    }
+    res.status(200).json({
+      message: "Otp validated",
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.send(error.message);
+  }
+};
 export { register, login, forgotPassword, verifyOtp };

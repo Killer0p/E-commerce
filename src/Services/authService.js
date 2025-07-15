@@ -1,14 +1,12 @@
-
 import bcrypt from "bcrypt";
 import Otp from "../models/Otp.js";
-import User from "../models/User.js";
 import { generateOtp } from "../utils/generateOtp.js";
-import { sendMail } from "../utils/sendMail.js";
+// import { sendMail } from "../utils/sendMail.js";
 import { hashPassword } from "../utils/utility.js";
-
+import User from "../models/User.js";
 
 const register = async (data) => {
-  const hashedPassword = hashPassword(data.password,10);
+  const hashedPassword = hashPassword(data.password, 10);
 
   const email = data.email;
   const userExist = await User.find({ email });
@@ -47,7 +45,6 @@ const login = async (data) => {
 const forgotPassword = async (data) => {
   const isUserValid = await User.findOne({ email: data.email });
 
-
   if (!isUserValid) {
     throw new Error("User is not registered");
   }
@@ -74,8 +71,6 @@ const forgotPassword = async (data) => {
   // sendMail(data.email, otp);
 
   return newOtp;
-
-
 };
 const verifyOtp = async ({ email, otp }) => {
   const doesExist = await Otp.findOne({ email });
@@ -87,16 +82,16 @@ const verifyOtp = async ({ email, otp }) => {
   if (doesExist.otp !== otp) {
     throw new Error("Invalid OTP");
   }
- 
-  await USer.findOneAndUpdate (
-    {email},
-    {canChangePassword: true},
-    {new: true}
-  )
+
+  await User.findOneAndUpdate(
+    { email },
+    { otpExpiresAt: new Date(Date.now() + 30 * 1000) },
+    { new: true }
+  );
 
   //optional
   await Otp.deleteOne({ email });
-  return("verifyOtp")
+  return "verifyOtp";
 };
 
 export default { register, login, forgotPassword, verifyOtp };

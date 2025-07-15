@@ -1,6 +1,6 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
-import { configDotenv } from "dotenv";
+import dotenv from "dotenv";
 import connectDb from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoute.js";
@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-configDotenv();
+dotenv.config();
 
 connectDb();
 
@@ -26,6 +26,9 @@ app.use("/api/product", productRoutes);
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT;
+
+
+
 app.listen(PORT, () => {
   console.log("Server is running on port 4000");
 });

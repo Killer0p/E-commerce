@@ -1,13 +1,11 @@
-
-
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
 const sendMail = async (email, otp) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-      user: "ribeshraut@gmail.com",
-      pass: "nfckxuysqjdyfrhd", 
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -15,7 +13,7 @@ const sendMail = async (email, otp) => {
     from: '"Support Team" <support@example.com>',
     to: email,
     subject: "Your OTP Code",
-    text: `Your One-Time Password (OTP) is: ${otp}`, 
+    // text: `Your One-Time Password (OTP) is: ${otp}`,
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f0f4f8; color: #333;">
         <div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
@@ -33,10 +31,13 @@ const sendMail = async (email, otp) => {
           </div>
         </div>
       </div>  
-    `
+    `,
   });
 
   console.log("Message sent: %s", info.messageId);
 };
+
+
+
 
 export { sendMail };

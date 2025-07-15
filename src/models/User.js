@@ -27,16 +27,16 @@ const userSchema = new mongoose.Schema(
       enum: ["ADMIN", "CUSTOMER"],
       default: "CUSTOMER",
     },
-    canChangePassword:{
-      type: Boolean,
-      default: false,
-    }
+    otpExpiresAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;
