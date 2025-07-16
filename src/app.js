@@ -1,14 +1,14 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
-import dotenv from "dotenv";
 import connectDb from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
+import constant from "./config/constant.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-
-dotenv.config();
 
 connectDb();
 
@@ -25,9 +25,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/auth", authRoutes);
 
-const PORT = process.env.PORT;
-
-
+const PORT = constant.PORT;
 
 app.listen(PORT, () => {
   console.log("Server is running on port 4000");
