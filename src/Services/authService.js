@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import Otp from "../models/Otp.js";
 import { generateOtp } from "../utils/generateOtp.js";
-// import { sendMail } from "../utils/sendMail.js";
+import { sendMail } from "../utils/sendMail.js";
 import { hashPassword } from "../utils/utility.js";
 import User from "../models/User.js";
 
@@ -68,9 +68,9 @@ const forgotPassword = async (data) => {
     );
   }
 
-  // sendMail(data.email, otp);
+  sendMail(data.email, otp);
 
-  return newOtp;
+  return { message: "OTP sent to your email" };
 };
 const verifyOtp = async ({ email, otp }) => {
   const doesExist = await Otp.findOne({ email });
