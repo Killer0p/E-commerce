@@ -3,7 +3,7 @@ import Otp from "../models/Otp.js";
 import User from "../models/User.js";
 import authService from "../Services/authService.js";
 
-const register = async (req, res) => {
+const register = async (req, res) => { 
   try {
     const { email, phone, password, confirmPassword, userName } = req.body;
 
