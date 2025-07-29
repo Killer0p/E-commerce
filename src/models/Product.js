@@ -38,6 +38,9 @@ const productSchema = new mongoose.Schema({
     imageUrl:{
         type : String
     },
+    imageName:{
+        type : String
+    },
     featured:{
         type: Boolean,
         default: false

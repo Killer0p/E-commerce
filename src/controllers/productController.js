@@ -1,9 +1,20 @@
 import productServices from "../Services/productServices.js";
 
 const createProduct = async (req, res) => {
+  if (!req.file) {
+    throw new error("Please upload an image");
+  }
+  console.log(req.file);
+  const filePath = req.file.path;
+  const fileName = req.file.filename;
+
+  // return res.send(req.file);
   try {
     const product = req.body;
-
+    console.log(req.body);
+    product.imageUrl = filePath;
+    product.imageName = fileName;
+    console.log(product);
     if (!product) {
       return res.status(400).send("Please fill all the fields");
     }
@@ -26,7 +37,7 @@ const createProduct = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.status(501).send("Error occurred while creating product");
+    res.status(501).send(error.message);
   }
 };
 
@@ -88,9 +99,15 @@ const deleteProductById = async (req, res) => {
 // Update product By ID
 const updateProductById = async (req, res) => {
   try {
+    if (req.file) {
+      // console.log(req.body)
+      const newFileilePath = req.file.path;
+      const newFileName = req.file.filename;
+      req.body.imageName = newFileName;
+      req.body.imagePath = newFileilePath;
+    }
     const id = req.params.id;
     const product = req.body;
-  
 
     const data = await productServices.updateProductById(id, product);
     res.status(200).json({
