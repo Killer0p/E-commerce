@@ -104,7 +104,7 @@ const updateProductById = async (req, res) => {
       const newFileilePath = req.file.path;
       const newFileName = req.file.filename;
       req.body.imageName = newFileName;
-      req.body.imagePath = newFileilePath;
+      req.body.imageUrl = newFileilePath;
     }
     const id = req.params.id;
     const product = req.body;

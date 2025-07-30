@@ -3,6 +3,7 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDb from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 import cookieParser from "cookie-parser";
 import constant from "./config/constant.js";
 import dotenv from "dotenv";
@@ -49,6 +50,7 @@ app.get("/api/clear-cookie", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/order", orderRoute);
 
 const PORT = constant.PORT;
 
