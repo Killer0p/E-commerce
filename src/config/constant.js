@@ -7,5 +7,6 @@ const PORT = process.env.PORT || 4000;
 const CLOUD_NAME = process.env.CLOUD_NAME;
 const API_KEY = process.env.API_KEY;
 const API_SECRET = process.env.API_SECRET;
+const KHALTI_SECRET_KEY = process.env.KHALTI_SECRET_KEY
 
-export default {PORT, MONGO_URI, EMAIL_PASS,EMAIL_USER, CLOUD_NAME, API_KEY, API_SECRET};
+export default {PORT, MONGO_URI, EMAIL_PASS,EMAIL_USER, CLOUD_NAME, API_KEY, API_SECRET,KHALTI_SECRET_KEY};

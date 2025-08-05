@@ -43,6 +43,13 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ["CASH_ON_DELIVERY", "KHALTI"],
   },
+  totalAmount:{
+    type: Number,
+    required: true,
+  },
+  pidx:{
+    type: String
+  }
 });
 
 const order = mongoose.model("Order", orderSchema);

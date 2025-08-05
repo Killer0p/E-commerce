@@ -3,6 +3,7 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import constant from "../config/constant.js";
 
+
 // Configuration
 cloudinary.config({
   cloud_name: constant.CLOUD_NAME,
